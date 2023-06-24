@@ -1,0 +1,159 @@
+- name: Install SonarQube
+  hosts: [son_ec2_ip]
+  become: true
+
+  vars:
+    pgsql_password: "kareem123"
+    sonar_password: "kareemsonar"
+    postgres_version: "12"
+    sonarqube_version: 8.9.2.46101
+
+  tasks:
+    - name: update cache and upgrade
+      apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+
+    - name: Install OpenJDK 11
+      apt:
+        name: [openjdk-11-jdk,unzip]
+        state: present
+        update_cache: yes
+
+    - name: Add PostgreSQL repository to apt sources
+      become: true
+      become_method: sudo
+      lineinfile:
+        path: /etc/apt/sources.list.d/pgdg.list
+        line: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+        create: yes
+
+    - name: Add PostgreSQL signing key
+      apt_key:
+        url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+        state: present
+
+    - name: Install postgresql,postgresql-contrib and python3-psycopg2
+      apt:
+        name: [postgresql,postgresql-contrib,python3-psycopg2]
+
+    - name: Enable DB server to start automatically on reboot
+      service:
+        name: postgresql
+        enabled: yes
+        state: started
+
+    - name: Start PostgreSQL service
+      systemd:
+        name: postgresql
+        state: started
+
+    - name: Change PostgreSQL password
+      command: echo "postgres:{{ pgsql_password }}" | sudo chpasswd
+
+    - name: change the authentication
+      lineinfile:
+        path: /etc/postgresql/{{postgres_version}}/main/pg_hba.conf
+        regex: "^local.*postgres.*peer$"
+        line: "local   all             postgres                                trust"
+        backrefs: true
+
+    - name: restart postgresql service
+      service:
+        name: postgresql
+        state: restarted
+
+    - name: Create a user named sonar
+      postgresql_user:
+        login_user: postgres
+        login_password: "{{ pgsql_password }}"
+        state: present 
+        name: sonar
+        password: "{{sonar_password}}"
+
+    - name: Create a sonarqube database
+      postgresql_db:
+        login_user: postgres
+        login_password: "{{pgsql_password}}"
+        state: present
+        name: sonarqube
+
+    - name: Grant all the privileges on the sonarqube database to the sonar user
+      postgresql_privs:
+        type: database
+        database: sonarqube
+        roles: sonar
+        privs: all
+
+    - name: restart postgresql service
+      service:
+        name: postgresql
+        state: restarted
+
+    - name: Edit the sysctl configuration file (change limits)
+      lineinfile:
+        dest: /etc/sysctl.conf
+        line: "{{ item }}"
+      loop:
+        - "vm.max_map_count=262144"
+        - "fs.file-max=65536"
+        - "ulimit -n 65536"
+        - "ulimit -u 4096"
+
+    - name: Add entries in /etc/security/limits.conf
+      lineinfile:
+        dest: /etc/security/limits.conf
+        line: "{{ item }}"
+      loop:
+        - sonarqube   -   nofile   131072
+        - sonarqube   -   nproc    8192
+
+    - name: Reboot the system to apply the changes
+      reboot:
+
+    - name: Unzip and download sonarqube
+      unarchive:
+        src: "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{{ sonarqube_version }}.zip"
+        dest: /opt
+        remote_src: true
+
+    - name: change name to sonarqube
+      copy:
+        src: "/opt/sonarqube-{{ sonarqube_version }}/"
+        dest: /opt/sonarqube
+        remote_src: true
+
+    - name: Create a sonar user and set /opt/sonarqube as the home directory
+      user:
+        name: sonar
+        home: /opt/sonarqube
+
+    - name: Grant the sonar user access to the /opt/sonarqube directory
+      file:
+        dest: /opt/sonarqube
+        owner: sonar
+        group: sonar
+        recurse: yes
+
+    - name: Edit the SonarQube configuration file part2
+      lineinfile:
+        dest: /opt/sonarqube/conf/sonar.properties
+        line: "{{ item }}"
+      loop: 
+        - sonar.jdbc.username=sonar
+        - sonar.jdbc.password={{ sonar_password }}
+        - sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+        - sonar.search.javaOpts=-Xmx512m -Xms512m -XX:MaxDirectMemorySize=256m -XX:+HeapDumpOnOutOfMemoryError
+
+    - name: copy service file
+      copy:
+        src: sonarqube.service 
+        dest: /etc/systemd/system/
+
+    - name: restart the service
+      service:
+        state: started
+        name: sonarqube.service 
+        enabled: true

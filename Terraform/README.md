@@ -1,0 +1,1 @@
+1. Run the code : terraform apply --var-file=3_values.tfvars
