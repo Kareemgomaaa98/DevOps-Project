@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "cicd-project-backend-storage-file"
-    key    = "terraform_backend/terraform.tfstate"
+    bucket = "mycicd-project-backend-storage-file-save"
+    key    = "terraform_backend_file/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "backend"
+    dynamodb_table = "mybackend_table"
   }
 }

@@ -1,12 +1,16 @@
-output "public1_id" {
-    value=aws_subnet.pub_1.id
+output "jenkins_instance_ip" {
+  value       = aws_instance.Jenkins.public_ip
+  description = "Jenkins public ip"
 }
 
-output "public2_id" {
-    value=aws_subnet.pub_2.id
+output "sonar_instance_ip" {
+  value       = aws_instance.Sonar.public_ip
+  description = "sonar public ip"
 }
-output "security_group_id" {
-  value = aws_security_group.ec2_sg.id
+
+output "nexus_instance_ip" {
+  value       = aws_instance.nexus.public_ip
+  description = "nexus public ip"
 }
 
 # output "endpoint" {

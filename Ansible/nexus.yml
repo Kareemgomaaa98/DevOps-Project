@@ -4,8 +4,6 @@
 
   vars:
     home_dir: /home/ubuntu
-    rename_src: /opt/nexus-3*/
-    rename_dest: /opt/nexus
     service_file: /etc/systemd/system/nexus.service
 
   tasks:
@@ -29,23 +27,9 @@
         src: "/opt/nexus.tar.gz"
         dest: "/opt"
 
-    - name: Check if file exists
-      stat:
-        path: "{{ rename_src }}"
-      register: check_file_name
-
-    - name: Copy file with new name
-      copy:
-        remote_src: true
-        src: "{{ rename_src }}"
-        dest: "{{ rename_dest }}"
-      when: check_file_name.stat.exists
-
-    - name: Remove old file
-      file:
-        path: "{{ rename_src }}"
-        state: absent
-      when: check_file_name.stat.exists
+    - name: Copy directory with new name
+      become: true
+      shell: mv /opt/nexus*/ /opt/nexus/
 
     - name: add user nexus
       user:

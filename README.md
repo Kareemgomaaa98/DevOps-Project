@@ -33,12 +33,12 @@ Note: this plugins is installed using Plugin Installation Manager by Ansible ins
 ## Steps
 clone this repo
 ```
-git clone https://github.com/moe-Ali/DevOps_project
+git clone <repo url>
 ```
 change the working directory to the cloned repo then run the python script to build the infrastructure
 ```
 cd DevOps_project
-python main.py
+python3 automate.py
 ```
 Note: Python script will output jenkins password and nexus password after the infrastructure is built and configured
 #### Example of the python output:
