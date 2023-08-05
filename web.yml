@@ -1,0 +1,135 @@
+---
+- name: Copy web files and configure Niginx
+  hosts: [web]
+  remote_user: ubuntu
+  become: true
+  
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install python3-pip package
+      become: true
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install Flask using pip3
+      become: true
+      pip:
+        name: flask
+        executable: pip3
+        state: present
+
+    - name: Install net-tools package using apt-get
+      become: true
+      apt:
+        name: net-tools
+        state: present
+
+    - name: Install Nginx and PHP-FPM
+      apt:
+        name:
+          - nginx
+          - php-fpm
+        state: present
+
+    - name: Copy Nginx configuration file
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy PHP-FPM configuration file
+      copy:
+        src: php-fpm.conf
+        dest: /etc/php/7.4/fpm/php-fpm.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy sample web.py file
+      copy:
+        src: web.py
+        dest: /usr/share/nginx/html/
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Copy html file 
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/
+        owner: www-data
+        group: www-data
+        mode: '0755'
+  
+    - name: Configure Nginx to serve Flask application
+      copy:
+        src: flask-app.conf
+        dest: /etc/nginx/sites-available/flask
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Enable Flask site in Nginx
+      file:
+        src: /etc/nginx/sites-available/flask
+        dest: /etc/nginx/sites-enabled/flask
+        state: link
+      notify: restart nginx
+
+    - name: Create flask-app.service unit file
+      copy:
+        content: |
+          [Unit]
+          Description=Flask App
+          After=nginx.service
+
+          [Service]
+          User=ubuntu
+          WorkingDirectory=/usr/share/nginx/html/
+          ExecStart=/usr/bin/python3 /usr/share/nginx/html/web.py
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/flask-app.service
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Start flask-app service
+      systemd:
+        name: flask-app.service
+        state: started
+        enabled: yes
+      async: 45
+      poll: 0
+
+    - name: Start Nginx service
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+      async: 45
+      poll: 0
+
+    - name: Start PHP-FPM service
+      systemd:
+        name: php7.4-fpm
+        state: started
+        enabled: yes
+      async: 45
+      poll: 0
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
