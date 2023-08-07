@@ -9,6 +9,7 @@ __________________________________________________________________
 Sonar Qube :
 https://github.com/jae1choi/sonaqueue-installation-guide
 SonarQube runs on port 9000.
+Log in with username: "admin" and password: "admin". SonarQube will prompt you to change your password.
 __________________________________________________________________
 Jenkins :
 https://www.jenkins.io/doc/book/installing/linux/
