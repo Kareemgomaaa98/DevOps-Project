@@ -1,5 +1,10 @@
 pipeline {
     agent any
+        tools {
+            // Use the name of the configured JDK in Jenkins
+            jdk 'Java16'
+        }
+    }
     
     environment {
         SONAR_SCANNER_TOOL= 'SonarQube' //Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
@@ -21,7 +26,7 @@ pipeline {
                 script {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
 
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv('SonarQube') {         //Should be the same of jenkins system and tool configuration name !
                         sh "${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
                             -Dsonar.sources=${SOURCE_DIR} \
