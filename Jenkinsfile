@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Use the name of the configured JDK in Jenkins
-        jdk 'Java-11'
+        jdk 'Java16'
     }
     
     environment {
@@ -25,12 +25,23 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
+                    def jdkHome = tool 'Java16'  // Assuming you've configured the JDK in Jenkins
+
+                    // Print out JDK and scanner paths
+                    echo "JDK Path: ${jdkHome}"
+                    echo "Scanner Path: ${scannerHome}"
 
                     // Set PATH to include JDK and scanner bin directories
                     env.PATH = "${jdkHome}/bin:${scannerHome}/bin:${env.PATH}"
 
-                    withSonarQubeEnv('SonarQube') {         //Should be the same of jenkins system and tool configuration name !
+                    // Print out PATH
+                    echo "Updated PATH: ${env.PATH}"
+
+                    withSonarQubeEnv('SonarQube') {
+                        // Print debug information
+                        sh 'echo $PATH'
+                        sh 'which java'
+
                         sh "${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
                             -Dsonar.sources=${SOURCE_DIR} \
