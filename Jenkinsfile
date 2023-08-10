@@ -2,6 +2,7 @@ pipeline {
     agent any
     
     environment {
+        SONAR_SCANNER_TOOL= 'sonar_scanner' //Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
         SONAR_TOKEN = '6fdbbd920c91857d03c7f7c837f5318c119f7530'  // Add your SonarQube token credential ID here
         PROJECT_KEY = 'DevOps-Project'
         SOURCE_DIR = '.'
@@ -18,7 +19,7 @@ pipeline {
         stage('Build and Analyze') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarQube Scanner'
+                    def scannerHome = tool "${SONAR_SCANNER_TOOL}"
 
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner \
