@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java11'  // Assuming you've configured the JDK in Jenkins
+                    def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
 
                     // Set PATH to include JDK and scanner bin directories
                     env.PATH = "${jdkHome}/bin:${scannerHome}/bin:${env.PATH}"
