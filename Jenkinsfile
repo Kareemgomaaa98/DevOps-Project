@@ -2,7 +2,10 @@ pipeline {
     agent any
     
     environment {
-        SONAR_TOKEN = credentials('6fdbbd920c91857d03c7f7c837f5318c119f7530')  // Add your SonarQube token credential ID here
+        SONAR_TOKEN = '6fdbbd920c91857d03c7f7c837f5318c119f7530'  // Add your SonarQube token credential ID here
+        PROJECT_KEY = 'DevOps-Project'
+        SOURCE_DIR = '.'
+        SONAR_HOST = 'http://localhost:9000'
     }
 
     stages {
@@ -19,9 +22,9 @@ pipeline {
 
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=DevOps-Project \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.projectKey=${PROJECT_KEY} \
+                            -Dsonar.sources=${SOURCE_DIR} \
+                            -Dsonar.host.url=${SONAR_HOST} \
                             -Dsonar.login=${SONAR_TOKEN}"
                     }
                 }
