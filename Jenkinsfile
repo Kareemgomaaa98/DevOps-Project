@@ -1,35 +1,35 @@
 pipeline {
     agent any
-
-    tools {
-        // Install the Maven version configured as "M3" and add it to the path.
-        maven "M3"
+    
+    environment {
+        SONAR_TOKEN = credentials('6fdbbd920c91857d03c7f7c837f5318c119f7530')  // Add your SonarQube token credential ID here
     }
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+                checkout scm
             }
+        }
+        
+        stage('Build and Analyze') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQube Scanner'
 
-            post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=DevOps-Project \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=${SONAR_TOKEN}"
+                    }
                 }
             }
         }
     }
 }
+
 // steps to follow : 
 //'CODE ANALYSIS with SONARQUBE'
 //'QUALITY GATE'
