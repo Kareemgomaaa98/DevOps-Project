@@ -1,14 +1,14 @@
 pipeline {
     agent any
-        tools {
-            // Use the name of the configured JDK in Jenkins
-            jdk 'Java16'
-        }
+
+    tools {
+        // Use the name of the configured JDK in Jenkins
+        jdk 'Java16'
     }
     
     environment {
         SONAR_SCANNER_TOOL= 'SonarQube' //Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
-        SONAR_TOKEN = '6fdbbd920c91857d03c7f7c837f5318c119f7530'  // Add your SonarQube token credential ID here
+        SONAR_TOKEN = credentials('SonarQube-Token') // Add your SonarQube token credential ID here
         PROJECT_KEY = 'DevOps-Project'
         SOURCE_DIR = '.'
         SONAR_HOST = 'http://localhost:9000'
@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout scm   //Checkout to the ci branch
             }
         }
         
@@ -38,7 +38,6 @@ pipeline {
         }
     }
 }
-
 // steps to follow : 
 //'CODE ANALYSIS with SONARQUBE'
 //'QUALITY GATE'
