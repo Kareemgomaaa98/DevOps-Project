@@ -4,10 +4,11 @@ pipeline {
     tools {
         // Use the name of the configured JDK in Jenkins
         jdk 'Java-11'
+        // Configure the SonarQube scanner tool
+        tool 'SonarQube'
     }
     
     environment {
-        SONAR_SCANNER_TOOL= 'SonarQube' //Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
         SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
         PROJECT_KEY = 'DevOps-Project'
         SOURCE_DIR = '.'
@@ -17,25 +18,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm   //Checkout to the ci branch
+                echo "Checking out code..."
+                checkout scm   // Checkout to the ci branch
             }
         }
         
-        stage('Build and Analyze') {
+        stage('Code Analysis with SonarQube') {
             steps {
                 script {
-                    def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
-
-                    // Print out JDK and scanner paths
-                    echo "JDK Path: ${jdkHome}"
-                    echo "Scanner Path: ${scannerHome}"
-
-                    // Set PATH to include JDK and scanner bin directories
-                    env.PATH = "${jdkHome}/bin:${scannerHome}/bin:${env.PATH}"
-
-                    // Print out PATH
-                    echo "Updated PATH: ${env.PATH}"
+                    // Print JDK and SonarQube scanner paths
+                    echo "JDK Path: ${tool 'Java-11'}"
+                    echo "Scanner Path: ${tool 'SonarQube'}"
 
                     withSonarQubeEnv('SonarQube') {
                         // Print debug information
@@ -43,9 +36,10 @@ pipeline {
                         sh 'which java'
 
                         // Change permission of java executable within SonarQube installation
-                        sh "chmod 755 ${scannerHome}/jre/bin/java"
+                        sh "chmod 755 ${tool('SonarQube')}/jre/bin/java"
 
-                        sh "${scannerHome}/bin/sonar-scanner \
+                        // Run SonarQube analysis
+                        sh "${tool('SonarQube')}/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
                             -Dsonar.sources=${SOURCE_DIR} \
                             -Dsonar.host.url=${SONAR_HOST} \
@@ -54,11 +48,26 @@ pipeline {
                 }
             }
         }
+        
+        stage('Quality Gate') {
+            steps {
+                echo "Checking quality gate..."
+                // Add your quality gate checks here
+            }
+        }
+        
+        stage('Container Build') {
+            steps {
+                echo "Building container..."
+                // Add your container build steps here
+            }
+        }
+        
+        stage('Container Push') {
+            steps {
+                echo "Pushing container..."
+                // Add your container push steps here
+            }
+        }
     }
 }
-
-// steps to follow : 
-//'CODE ANALYSIS with SONARQUBE'
-//'QUALITY GATE'
-//'CONTAINER BUILD'
-//'CONTAINER PUSH'
