@@ -37,13 +37,13 @@ pipeline {
                     // Print out PATH
                     echo "Updated PATH: ${env.PATH}"
 
-                    // Change permission of java executable
-                    sh "chmod 755 ${scannerHome}/jre/bin/java"
-
                     withSonarQubeEnv('SonarQube') {
                         // Print debug information
                         sh 'echo $PATH'
                         sh 'which java'
+
+                        // Change permission of java executable within SonarQube installation
+                        sh "chmod 755 ${scannerHome}/jre/bin/java"
 
                         sh "${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
