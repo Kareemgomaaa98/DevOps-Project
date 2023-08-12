@@ -5,7 +5,7 @@ pipeline {
         // Use the name of the configured JDK in Jenkins
         jdk 'Java-11'
         // Configure the SonarQube scanner tool
-        tool 'SonarQube'
+        name 'SonarQube'
     }
     
     environment {
