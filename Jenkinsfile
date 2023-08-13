@@ -27,24 +27,7 @@ pipeline {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
                     def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
 
-                    // Print out JDK and scanner paths
-                    echo "JDK Path: ${jdkHome}"
-                    echo "Scanner Path: ${scannerHome}"
-
-                    // Set PATH to include JDK and scanner bin directories
-                    env.PATH = "${jdkHome}/bin:${scannerHome}/bin:${env.PATH}"
-
-                    // Print out PATH
-                    echo "Updated PATH: ${env.PATH}"
-
-                    withSonarQubeEnv('SonarQube') {
-                        // Print debug information
-                        sh 'echo $PATH'
-                        sh 'which java'
-
-                        // Change permission of java executable within SonarQube installation
-                        sh "chmod 755 ${scannerHome}/jre/bin/java"
-
+                    withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
                         sh "${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
                             -Dsonar.sources=${SOURCE_DIR} \
