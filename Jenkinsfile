@@ -28,7 +28,7 @@ pipeline {
                     def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
 
                     withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
-                        sh "${scannerHome}/bin/sonar-scanner \
+                        sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
                             -Dsonar.projectKey=${PROJECT_KEY} \
                             -Dsonar.sources=${SOURCE_DIR} \
                             -Dsonar.host.url=${SONAR_HOST} \
