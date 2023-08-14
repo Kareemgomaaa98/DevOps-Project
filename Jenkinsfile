@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     tools {
-        // Use the name of the configured JDK in Jenkins
-        jdk 'Java-11'
+        jdk 'Java-11'// Use the name of the configured JDK in Jenkins
     }
     
     environment {
-        SONAR_SCANNER_TOOL= 'SonarQube' //Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
+        SONAR_SCANNER_TOOL = 'SonarQube' // Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
         SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
         PROJECT_KEY = 'DevOps-Project'
         SOURCE_DIR = '.'
@@ -15,17 +14,17 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout') {  // Checkout to the ci branch
             steps {
-                checkout scm   //Checkout to the ci branch
+                checkout scm
             }
         }
         
-        stage('Build and Analyze') {
+        stage('CODE ANALYSIS with SONARQUBE') {
             steps {
                 script {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java-11'  // Assuming you've configured the JDK in Jenkins
+                    def jdkHome = tool 'Java-11'
 
                     withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
                         sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
@@ -37,11 +36,25 @@ pipeline {
                 }
             }
         }
+        
+        stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        
+        stage('CONTAINER BUILD') {
+            steps {
+                // Your container build steps here
+            }
+        }
+        
+        stage('CONTAINER PUSH') {
+            steps {
+                // Your container push steps here
+            }
+        }
     }
 }
-
-// steps to follow : 
-//'CODE ANALYSIS with SONARQUBE'
-//'QUALITY GATE'
-//'CONTAINER BUILD'
-//'CONTAINER PUSH'
