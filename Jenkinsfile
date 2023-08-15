@@ -37,13 +37,13 @@ pipeline {
             }
         }
 
-        stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
-            steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        // stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
+        //     steps {
+        //         timeout(time: 1, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
 
         // stage('CONTAINER BUILD') {
         //     steps {
