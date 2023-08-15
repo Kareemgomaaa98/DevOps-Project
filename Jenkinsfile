@@ -45,17 +45,17 @@ pipeline {
             }
         }
 
-        stage('CONTAINER BUILD') {
-            steps {
-                // Your container build steps here
-            }
-        }
+        // stage('CONTAINER BUILD') {
+        //     steps {
+        //         // Your container build steps here
+        //     }
+        // }
 
-        stage('CONTAINER PUSH') {
-            steps {
-                // Your container push steps here
-            }
-        }
+        // stage('CONTAINER PUSH') {
+        //     steps {
+        //         // Your container push steps here
+        //     }
+        // }
     }
 
     post {
