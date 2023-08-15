@@ -14,11 +14,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {  // Checkout to the ci branch
-            steps {
-                checkout scm
-            }
-        }
+        // stage('Checkout') {  // Checkout to the ci branch
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
 
         stage('CODE ANALYSIS with SONARQUBE') {
             steps {
