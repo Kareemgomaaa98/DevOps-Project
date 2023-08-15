@@ -4,7 +4,7 @@ pipeline {
     tools {
         jdk 'Java-11'// Use the name of the configured JDK in Jenkins
     }
-    
+
     environment {
         SONAR_SCANNER_TOOL = 'SonarQube' // Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
         SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
@@ -19,7 +19,7 @@ pipeline {
                 checkout scm
             }
         }
-        
+
         stage('CODE ANALYSIS with SONARQUBE') {
             steps {
                 script {
@@ -36,7 +36,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
             steps {
                 timeout(time: 1, unit: 'MINUTES') {
@@ -44,17 +44,29 @@ pipeline {
                 }
             }
         }
-        
+
         stage('CONTAINER BUILD') {
             steps {
                 // Your container build steps here
             }
         }
-        
+
         stage('CONTAINER PUSH') {
             steps {
                 // Your container push steps here
             }
+        }
+    }
+
+    post {
+        failure {
+            slackSend(channel: "jenkins", color: "#FF0000", message: "FAILED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+        }
+        success {
+            slackSend(channel: "jenkins", color: "#00FF00", message: "SUCCEEDED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+        }
+        aborted {
+            slackSend(channel: "jenkins", color: "#808080", message: "ABORTED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
     }
 }
