@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'ci-node'
+            // customWorkspace '/path/to/your/workspace' // Optional: Specify a custom workspace for the node
+        }
+    }
 
     tools {
         jdk 'Java-11'// Use the name of the configured JDK in Jenkins
