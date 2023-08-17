@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        jdk 'Java-11'// Use the name of the configured JDK in Jenkins
+        jdk 'Java-11' // Use the name of the configured JDK in Jenkins
     }
 
     environment {
@@ -18,7 +18,6 @@ pipeline {
         BUILD_URL = 'my_URL'
         SLACK_CHANNEL = '#cicd-project'
         // We can use Docker from a plugin
-
     }
 
     stages {
@@ -27,7 +26,6 @@ pipeline {
         //         script {
         //             def scannerHome = tool "${SONAR_SCANNER_TOOL}"
         //             def jdkHome = tool 'Java-11'
-
         //             withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
         //                 sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
         //                     -Dsonar.projectKey=${PROJECT_KEY} \
@@ -62,13 +60,13 @@ pipeline {
 
     post {
         failure {
-            slackSend(channel: ${SLACK_CHANNEL}, color: "#FF0000", message: "FAILED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
         success {
-            slackSend(channel: ${SLACK_CHANNEL}, color: "#00FF00", message: "SUCCEEDED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#00FF00", message: "SUCCEEDED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
         aborted {
-            slackSend(channel: ${SLACK_CHANNEL}, color: "#808080", message: "ABORTED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#808080", message: "ABORTED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
     }
 }
