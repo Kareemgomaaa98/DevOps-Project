@@ -48,6 +48,7 @@ pipeline {
         stage('CONTAINER BUILD') {
             steps {
                 sh 'docker build -t my-website .'
+                slackSend color: "#00FF00", message: "Bulding the image ..."
             }
         }
 
@@ -60,13 +61,13 @@ pipeline {
 
     post {
         failure {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED 😢 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
         success {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#00FF00", message: "SUCCEEDED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#00FF00", message: "SUCCEEDED 🥳 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
         aborted {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#808080", message: "ABORTED: job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+            slackSend(channel: "${SLACK_CHANNEL}", color: "#808080", message: "ABORTED 🤒 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
         }
     }
 }
