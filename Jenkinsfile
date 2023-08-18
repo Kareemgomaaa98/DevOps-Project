@@ -48,7 +48,6 @@ pipeline {
         stage('CONTAINER BUILD') {
             steps {
                 sh 'docker build -t my-website .'
-                slackSend color: "#00FF00", message: "Bulding the image ..."
             }
         }
 
