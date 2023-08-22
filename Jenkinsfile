@@ -61,6 +61,7 @@ pipeline {
             steps {
                 sh """
                 docker push ${NEX_REPO}/my-website
+                echo ${BUILD_NUMBER}
                 """
             }
         }
