@@ -25,21 +25,21 @@ pipeline {
     }
 
     stages {
-        // stage('CODE ANALYSIS with SONARQUBE') {
-        //     steps {
-        //         script {
-        //             def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-        //             def jdkHome = tool 'Java-11'
-        //             withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
-        //                 sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
-        //                     -Dsonar.projectKey=${PROJECT_KEY} \
-        //                     -Dsonar.sources=${SOURCE_DIR} \
-        //                     -Dsonar.host.url=${SONAR_HOST} \
-        //                     -Dsonar.login=${SONAR_TOKEN}"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('CODE ANALYSIS with SONARQUBE') {
+            steps {
+                script {
+                    def scannerHome = tool "${SONAR_SCANNER_TOOL}"
+                    def jdkHome = tool 'Java-11'
+                    withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
+                        sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
+                            -Dsonar.projectKey=${PROJECT_KEY} \
+                            -Dsonar.sources=${SOURCE_DIR} \
+                            -Dsonar.host.url=${SONAR_HOST} \
+                            -Dsonar.login=${SONAR_TOKEN}"
+                    }
+                }
+            }
+        }
 
         // stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
         //     steps {
@@ -51,6 +51,7 @@ pipeline {
 
         stage('CONTAINER BUILD') {
             steps {
+                echo "This is build stage number ${BUILD_NUMBER}"
                 sh """
                 docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
                 docker build -t ${NEX_REPO}/my-website .
@@ -59,6 +60,7 @@ pipeline {
         }
         stage('PUSHHING THE IMAGE') {
             steps {
+                echo "This is push stage number ${BUILD_NUMBER}"
                 sh """
                 docker push ${NEX_REPO}/my-website
                 echo ${BUILD_NUMBER}
