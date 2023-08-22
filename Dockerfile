@@ -14,7 +14,7 @@ COPY web.py .
 COPY index.html .
 
 # Expose port 5000 for the Flask app
-EXPOSE 5000
+EXPOSE 6000
 
 # Start the Flask application
 CMD ["python", "web.py"]

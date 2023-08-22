@@ -17,7 +17,11 @@ pipeline {
         BUILD_ID = 'my_build_id'
         BUILD_URL = 'my_URL'
         SLACK_CHANNEL = '#cicd-project'
-        // We can use Docker from a plugin
+        // Nexus
+        NEX_USERNAME = 'admin'
+        NEX_PASSWORD = 'kareem@98'
+        NEX_URL = 'http://localhost:8081/'
+        NEX_REPO = 'localhost:6000/python-web-app-repo'
     }
 
     stages {
@@ -47,15 +51,19 @@ pipeline {
 
         stage('CONTAINER BUILD') {
             steps {
-                sh 'docker build -t my-website .'
+                sh """
+                docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
+                docker build -t ${NEX_REPO}/my-website .
+                """
             }
         }
-
-        // stage('CONTAINER PUSH') {
-        //     steps {
-        //         // Your container push steps here
-        //     }
-        // }
+        stage('PUSHHING THE IMAGE') {
+            steps {
+                sh """
+                docker push ${NEX_REPO}/my-website
+                """
+            }
+        }
     }
 
     post {
