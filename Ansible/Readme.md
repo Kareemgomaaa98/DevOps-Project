@@ -7,16 +7,30 @@
 4. To access to any instance "http://<ip>:<port>"
 __________________________________________________________________
 Sonar Qube :
+
+Installation Documentation :
 https://github.com/jae1choi/sonaqueue-installation-guide
 SonarQube runs on port 9000.
+
 Log in with username: "admin" and password: "admin". SonarQube will prompt you to change your password.
 __________________________________________________________________
 Jenkins :
+
+Installation Documentation :
 https://www.jenkins.io/doc/book/installing/linux/
-SonarQube runs on port 8080.
+Jenkins runs on port 8080.
+
+SonarQube extension installation and Documintation with jenkins :
+https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/jenkins-extension-sonarqube/
+
+jdk versions:
+https://jdk.java.net/archive/
 __________________________________________________________________
 Nexus : 
+
+Installation Documentation : 
 https://devopscube.com/how-to-install-latest-sonatype-nexus-3-on-linux/
 Nexus runs on port 8081 or 8443 with https.
 __________________________________________________________________
 always oppen port 5000 !
+__________________________________________________________________
