@@ -27,6 +27,7 @@ pipeline {
     stages {
         stage('CODE ANALYSIS with SONARQUBE') {
             steps {
+                echo "#### SonarQube Starts Analyzing now for stage number ${BUILD_NUMBER} ### "
                 script {
                     def scannerHome = tool "${SONAR_SCANNER_TOOL}"
                     def jdkHome = tool 'Java-11'
@@ -41,17 +42,9 @@ pipeline {
             }
         }
 
-        // stage('QUALITY GATE') {  // Waits for a quality gate evaluation to complete within a 1-minute timeout, and if the evaluation fails, the pipeline is aborted.
-        //     steps {
-        //         timeout(time: 1, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
-
         stage('CONTAINER BUILD') {
             steps {
-                echo "This is build stage number ${BUILD_NUMBER}"
+                echo "#### This is build stage number ${BUILD_NUMBER} ### "
                 sh """
                 docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
                 docker build -t ${NEX_REPO}/my-website .
@@ -60,7 +53,7 @@ pipeline {
         }
         stage('PUSHHING THE IMAGE') {
             steps {
-                echo "This is push stage number ${BUILD_NUMBER}"
+                echo "#### Pushhing the image for stage number ${BUILD_NUMBER} ####"
                 sh """
                 docker push ${NEX_REPO}/my-website
                 echo ${BUILD_NUMBER}
