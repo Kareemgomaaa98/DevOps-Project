@@ -16,3 +16,6 @@ instance_type = "t2.medium"
 
 # key_pair
 key_pair_file = "../../AWS_keys/public.txt"
+
+# EKS
+cluster_name = "kareem-cluster"

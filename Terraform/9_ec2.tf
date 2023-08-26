@@ -46,7 +46,7 @@ resource "aws_instance" "Sonar" {
 # Use a local-exec provisioner on the null_resource to concatenate the public_ips.txt files
 resource "null_resource" "concatenate_public_ips" {
   provisioner "local-exec" {
-    command = "cat public_ips.txt >> /home/kareem/Projects/Devops_Project/main_branch/Ansible/inventory.txt && rm public_ips.txt"
+    command = "cat public_ips.txt >> /home/kareem/Projects/Devops_Project/main/Ansible/inventory.txt && rm public_ips.txt"
   }
   depends_on = [
     aws_instance.Jenkins,

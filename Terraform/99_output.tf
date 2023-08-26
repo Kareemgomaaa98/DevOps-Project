@@ -13,10 +13,10 @@ output "nexus_instance_ip" {
   description = "nexus public ip"
 }
 
-# output "endpoint" {
-#   value = aws_eks_cluster.MY_EKS.endpoint
-# }
+output "eks_cluster_endpoint" {
+  value = aws_eks_cluster.my_eks_cluster.endpoint
+}
 
-# output "kubeconfig-certificate-authority-data" {
-#   value = aws_eks_cluster.MY_EKS.certificate_authority[0].data
-# }
+output "eks_kubeconfig_ca_data" {
+  value = aws_eks_cluster.my_eks_cluster.certificate_authority.0.data
+}

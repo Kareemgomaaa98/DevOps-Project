@@ -39,3 +39,7 @@ variable instance_type {
 variable key_pair_file {
     type=string
 }
+# EKS
+variable "cluster_name" {
+  type    = string
+}

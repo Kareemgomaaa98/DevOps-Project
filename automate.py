@@ -23,8 +23,8 @@ def main():
         print("Please enter a correct choice")
         main()
 
-tf_files = "/home/kareem/Projects/Devops_Project/main_branch/Terraform"
-ansible_files = "/home/kareem/Projects/Devops_Project/main_branch/Ansible"
+tf_files = "/home/kareem/Projects/Devops_Project/main/Terraform"
+ansible_files = "/home/kareem/Projects/Devops_Project/main/Ansible"
 
 def terraform_apply():
     print("\n Terraform starts now :) \n")
