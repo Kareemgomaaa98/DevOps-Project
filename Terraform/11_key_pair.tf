@@ -13,5 +13,5 @@ resource "tls_private_key" "rsa" {
 #Private key will be stored in your machine under the name of TFkey
 resource "local_file" "TF_Key" {
   content  = tls_private_key.rsa.private_key_pem
-  filename = "/home/kareem/Projects/Devops_Project/main_branch/Ansible/TFkey"
+  filename = "/home/kareem/Projects/Devops_Project/main/Ansible/TFkey"
 }

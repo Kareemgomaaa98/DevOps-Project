@@ -19,3 +19,5 @@ key_pair_file = "../../AWS_keys/public.txt"
 
 # EKS
 cluster_name = "kareem-cluster"
+ami_type = "AL2_x86_64"
+instance_types = ["t2.medium"]

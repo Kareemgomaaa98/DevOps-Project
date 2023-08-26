@@ -50,9 +50,9 @@ resource "aws_iam_role_policy_attachment" "my_EC2_Container_Registry_ReadOnly" {
 
 
 
-# Create an IAM role for the EKS cluster Nodes
-resource "aws_iam_role" "example" {
-  name = "eks-node-group-example"
+# Create an IAM role for the EKS Nodes
+resource "aws_iam_role" "my_eks_cluster_nodes_role" {
+  name = "my_eks_cluster_nodes_role"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -64,4 +64,15 @@ resource "aws_iam_role" "example" {
     }]
     Version = "2012-10-17"
   })
+}
+
+# Attach AWS policies to IAM role for EKS Nodes
+resource "aws_iam_role_policy_attachment" "my_eks_cluster_nodes_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.my_eks_cluster_nodes_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "my_eks_cluster_nodes_ecr_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.my_eks_cluster_nodes_role.name
 }

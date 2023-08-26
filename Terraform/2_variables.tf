@@ -41,5 +41,12 @@ variable key_pair_file {
 }
 # EKS
 variable "cluster_name" {
-  type    = string
+    type=string
+}
+variable ami_type {
+    type=string
+}
+
+variable "instance_types" {
+    type=list
 }
