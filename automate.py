@@ -40,6 +40,8 @@ def ansible():
     subprocess.run(["chmod", "400", "TFkey"], cwd=ansible_files) #Set the key pair file permission to read only
     commands = [
         ["ansible-playbook", "-i", "inventory.txt", "jenkins.yml", "-u", "ubuntu", "--key-file", "TFkey"],
+        ["ansible-playbook", "-i", "inventory.txt", "docker.yml", "-u", "ubuntu", "--key-file", "TFkey"],
+        ["ansible-playbook", "-i", "inventory.txt", "kubectl.yml", "-u", "ubuntu", "--key-file", "TFkey"],
         ["ansible-playbook", "-i", "inventory.txt", "sonar.yml", "-u", "ubuntu", "--key-file", "TFkey"],
         ["ansible-playbook", "-i", "inventory.txt", "nexus.yml", "-u", "ubuntu", "--key-file", "TFkey"]
     ]

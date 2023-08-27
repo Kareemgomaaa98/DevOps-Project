@@ -1,0 +1,44 @@
+---
+- name: Install Docker
+  hosts: [jen_ec2_ip]
+  become: yes  # You need to run these tasks as sudo, so become is set to yes
+
+  tasks:
+    - name: Update apt package index and install required packages
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+      become: yes
+
+    - name: Add Docker's official GPG key
+      command: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+      become: yes
+
+    - name: Make the GPG key readable
+      file:
+        path: /etc/apt/keyrings/docker.gpg
+        mode: 'a+r'
+      become: yes
+
+    - name: Set up Docker repository
+      shell: |
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      become: yes
+
+    - name: Update apt package index again
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install Docker Engine, containerd, and Docker Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose
+        state: present
+      become: yes

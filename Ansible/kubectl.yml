@@ -1,0 +1,41 @@
+---
+- name: Configure Kubernetes repository and install kubectl
+  hosts: [jen_ec2_ip]
+  become: yes
+
+  tasks:
+    - name: Update the apt package index
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install packages needed for Kubernetes apt repository
+      apt:
+        name: "{{ item }}"
+        state: present
+      become: yes
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+
+    - name: Download the Kubernetes signing key
+      shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      become: yes
+
+    - name: Add Kubernetes apt repository
+      shell: |
+        echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+      become: yes
+
+    - name: Update apt package index (again)
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install kubectl
+      apt:
+        name: kubectl
+        state: present
+      become: yes
