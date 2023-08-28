@@ -14,10 +14,12 @@ pipeline {
     stages {
         stage('LINK TO K8s') {
             steps {
-                echo "#### This is build stage number ${BUILD_NUMBER} ### "
-                sh """
-                aws eks --region ${REGION} update-kubeconfig --name ${CLUSTER_NAME}
-                """
+                withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    echo "#### This is build stage number ${BUILD_NUMBER} ### "
+                    sh """
+                    aws eks --region ${REGION} update-kubeconfig --name ${CLUSTER_NAME}
+                    """
+                }
             }
 
             post {
