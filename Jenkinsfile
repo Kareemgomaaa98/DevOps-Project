@@ -9,6 +9,11 @@ pipeline {
         // K8s
         REGION = 'us-east-1'
         CLUSTER_NAME = 'kareem-cluster'
+        // Slack
+        JOB_NAME = 'DevOps-Project'
+        BUILD_ID = 'my_build_id'
+        BUILD_URL = 'my_URL'
+        SLACK_CHANNEL = '#cicd-project'
     }
 
     stages {
