@@ -6,61 +6,20 @@ pipeline {
     }
 
     environment {
-        // Sonarqube
-        SONAR_SCANNER_TOOL = 'SonarQube' // Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
-        SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
-        PROJECT_KEY = 'DevOps-Project'
-        SOURCE_DIR = '.'
-        SONAR_HOST = 'http://localhost:9000'
-        // Slack
-        JOB_NAME = 'DevOps-Project'
-        BUILD_ID = 'my_build_id'
-        BUILD_URL = 'my_URL'
-        SLACK_CHANNEL = '#cicd-project'
-        // Nexus
-        NEX_USERNAME = 'admin'
-        NEX_PASSWORD = 'kareem@98'
-        NEX_URL = 'http://localhost:8081/'
-        NEX_REPO = 'localhost:6000/python-web-app-repo'
+        // K8s
+        REGION = 'us-east-1'
+        CLUSTER_NAME = 'kareem-cluster'
     }
 
     stages {
-        stage('CODE ANALYSIS with SONARQUBE') {
-            steps {
-                echo "#### SonarQube Starts Analyzing now for stage number ${BUILD_NUMBER} ### "
-                script {
-                    def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java-11'
-                    withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
-                        sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
-                            -Dsonar.projectKey=${PROJECT_KEY} \
-                            -Dsonar.sources=${SOURCE_DIR} \
-                            -Dsonar.host.url=${SONAR_HOST} \
-                            -Dsonar.login=${SONAR_TOKEN}"
-                    }
-                }
-            }
-        }
-
-        stage('CONTAINER BUILD') {
+        stage('LINK TO K8s') {
             steps {
                 echo "#### This is build stage number ${BUILD_NUMBER} ### "
                 sh """
-                docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
-                docker build -t ${NEX_REPO}/my-website .
+                aws eks --region ${REGION} update-kubeconfig --name ${CLUSTER_NAME}
                 """
             }
         }
-        stage('PUSHHING THE IMAGE') {
-            steps {
-                echo "#### Pushhing the image for stage number ${BUILD_NUMBER} ####"
-                sh """
-                docker push ${NEX_REPO}/my-website
-                echo ${BUILD_NUMBER}
-                """
-            }
-        }
-    }
 
     post {
         failure {
