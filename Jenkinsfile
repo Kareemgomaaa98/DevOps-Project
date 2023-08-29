@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'Java-11' // Use the name of the configured JDK in Jenkins
-    }
-
     environment {
         // K8s
         REGION = 'us-east-1'
@@ -20,7 +16,6 @@ pipeline {
         stage('LINK TO K8s') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    echo "#### This is build stage number ${BUILD_NUMBER} ### "
                     sh """
                     aws eks --region ${REGION} update-kubeconfig --name ${CLUSTER_NAME}
                     """
