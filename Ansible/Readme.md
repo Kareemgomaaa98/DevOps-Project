@@ -20,8 +20,13 @@ Installation Documentation :
 https://www.jenkins.io/doc/book/installing/linux/
 Jenkins runs on port 8080.
 
-SonarQube extension installation and Documintation with jenkins :
+extensions :
+
+SonarQube installation and Documintation with jenkins :
 https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/jenkins-extension-sonarqube/
+
+AWS :
+https://plugins.jenkins.io/aws-credentials/  # Adds new credentials type to jenkins called AWS Credentials to save Access Keys
 
 jdk versions:
 https://jdk.java.net/archive/
@@ -32,5 +37,6 @@ Installation Documentation :
 https://devopscube.com/how-to-install-latest-sonatype-nexus-3-on-linux/
 Nexus runs on port 8081 or 8443 with https.
 __________________________________________________________________
+
 always oppen port 5000 !
 __________________________________________________________________
