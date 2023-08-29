@@ -18,8 +18,6 @@ pipeline {
         BUILD_URL = 'my_URL'
         SLACK_CHANNEL = '#cicd-project'
         // Nexus
-        NEX_USERNAME = 'admin'
-        NEX_PASSWORD = 'kareem@98'
         NEX_URL = 'http://localhost:8081/'
         NEX_REPO = 'localhost:6000/python-web-app-repo'
     }
@@ -45,6 +43,7 @@ pipeline {
         stage('CONTAINER BUILD') {
             steps {
                 echo "#### This is build stage number ${BUILD_NUMBER} ### "
+                withCredentials([usernamePassword(credentialsId: "nex-login", usernameVariable: 'NEX_USERNAME', passwordVariable: 'NEX_PASSWORD')]) {
                 sh """
                 docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
                 docker build -t ${NEX_REPO}/my-website .
