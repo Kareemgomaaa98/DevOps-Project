@@ -6,9 +6,16 @@ metadata :
 spec:
   project: default
   source:
-    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    repoURL: https://github.com/Kareemgomaaa98/DevOps-Project.git
     targetRevision: HEAD
-    path: guestbook
+    path: K8s
   destination:
     server: https://kubernetes.default.svc
-    namespace: guestbook
+    namespace: myapp
+  syncPolicy:                      # By default the bleow polices set off due to safety mechanism.
+    syncOptions:
+    - CreateNamespace=true         # ensres that namespcae specifed exists in the destination cluster.If not, It will create it.
+
+    automated:
+     selfHeal: true                # Make ArgoCD automatically fetch and sync any new changes to the cluster.
+     prune: true                   # overwrite any manual changes to the one in the repo.
