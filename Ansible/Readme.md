@@ -40,3 +40,15 @@ __________________________________________________________________
 
 always oppen port 5000 !
 __________________________________________________________________
+ArgoCD :
+
+Installation Documentation :
+https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd
+SonarQube runs on port 443 before forward and 8080 after forward.
+
+To loginto the ArgoCD GUI :
+http:<clusterip>:8080
+
+Log in with username: "admin" and to get password : 
+kubectl get secret argocd-initial-admin-secret -n argocd -o yaml
+echo <password> | base64 --decode  * Just copy the steing before the percent mark

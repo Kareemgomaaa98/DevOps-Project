@@ -1,8 +1,7 @@
-# Must create IAM role for EKS
-# Create our EKS
 resource "aws_eks_cluster" "my_eks_cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.my_eks_cluster_role.arn
+  
   vpc_config {
     subnet_ids = [aws_subnet.pub_1.id, aws_subnet.pub_2.id]
   }

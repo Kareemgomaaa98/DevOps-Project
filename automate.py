@@ -2,7 +2,7 @@ import subprocess
 
 def main():
     print("\n$$ Welcome to my CI/CD Project $$\n--- Please choose what to do ?")
-    user = input("1- terraform apply\n2- terraform destroy\n3- ansible\n9- exit\nEnter choice:")
+    user = input("1- terraform apply\n2- terraform destroy\n3- ansible\n4- Link me to my cluster\n9- exit\nEnter choice:")
 
     if user == "1" or user == "terraform apply":
         terraform_apply()
@@ -14,6 +14,10 @@ def main():
 
     elif user == "3" or user == "ansible":
         ansible()
+        main()
+
+    elif user == "4" or user == "Configre kubectl":
+        kube()
         main()
     
     elif user == "9" or user == "exit":
@@ -28,11 +32,11 @@ ansible_files = "/home/kareem/Projects/Devops_Project/main/Ansible"
 
 def terraform_apply():
     print("\n Terraform starts now :) \n")
-    subprocess.run(["terraform", "apply", "--var-file=3_values.tfvars", "-auto-approve"], cwd=tf_files)
+    subprocess.run(["terraform", "apply", "--var-file=values.tfvars", "-auto-approve"], cwd=tf_files)
 
 def terraform_destroy():
     print("\n Terraform destroys now :( \n")  
-    subprocess.run(["terraform", "destroy", "--var-file=3_values.tfvars", "-auto-approve"], cwd=tf_files)
+    subprocess.run(["terraform", "destroy", "--var-file=values.tfvars", "-auto-approve"], cwd=tf_files)
     subprocess.run(["rm", "inventory.txt", "TFkey",], cwd=ansible_files) #Remove old inventory and key pair files
     
 def ansible():
@@ -45,7 +49,6 @@ def ansible():
         ["ansible-playbook", "-i", "inventory.txt", "sonar.yml", "-u", "ubuntu", "--key-file", "TFkey"],
         ["ansible-playbook", "-i", "inventory.txt", "nexus.yml", "-u", "ubuntu", "--key-file", "TFkey"]
     ]
-    
     # Create a list of terminal commands to run each command in a new terminal window
     terminal_commands = []
     for command in commands:
@@ -55,4 +58,9 @@ def ansible():
     for terminal_command in terminal_commands:
         subprocess.Popen(terminal_command, shell=True) 
     
+def kube():
+    print("\n Linking to k8s :) \n ")  
+    subprocess.run(["aws", "eks" , "--region", "us-east-1" , "update-kubeconfig" , "--name" , "kareem-cluster"])
+    print("\n Done ;) \n ")
+
 main()
