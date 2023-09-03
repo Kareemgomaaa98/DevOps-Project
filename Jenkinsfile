@@ -44,15 +44,17 @@ pipeline {
             steps {
                 echo "#### This is build stage number ${BUILD_NUMBER} ### "
                 withCredentials([usernamePassword(credentialsId: "nex-login", usernameVariable: 'NEX_USERNAME', passwordVariable: 'NEX_PASSWORD')]) {
-                sh """
-                docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
-                docker build -t ${NEX_REPO}/my-website .
-                """
+                    sh """
+                    docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
+                    docker build -t ${NEX_REPO}/my-website .
+                    """
+                }
             }
         }
-        stage('PUSHHING THE IMAGE') {
+
+        stage('PUSHING THE IMAGE') {
             steps {
-                echo "#### Pushhing the image for stage number ${BUILD_NUMBER} ####"
+                echo "#### Pushing the image for stage number ${BUILD_NUMBER} ####"
                 sh """
                 docker push ${NEX_REPO}/my-website
                 echo ${BUILD_NUMBER}
