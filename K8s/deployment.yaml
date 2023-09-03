@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: my-website
-        image: http://localhost:6000/python-web-app-repo/my-website
+        image: localhost:3030/python-web-app-repo/my-website
         ports:
         - containerPort: 80
