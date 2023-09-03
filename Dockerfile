@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY web.py .
 COPY index.html .
 
-# Expose port 5000 for the Flask app
-EXPOSE 6000
+# Expose port 3030 for the Flask app
+EXPOSE 3030
 
 # Start the Flask application
 CMD ["python", "web.py"]
