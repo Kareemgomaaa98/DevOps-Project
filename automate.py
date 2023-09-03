@@ -2,7 +2,7 @@ import subprocess
 
 def main():
     print("\n$$ Welcome to my CI/CD Project $$\n--- Please choose what to do ?")
-    user = input("1- terraform apply\n2- terraform destroy\n3- ansible\n4- Link me to my cluster\n9- exit\nEnter choice:")
+    user = input("1- terraform apply\n2- terraform destroy\n3- ansible\n4- Link me to my cluster\n5- ArgoCD\n9- exit\nEnter choice:")
 
     if user == "1" or user == "terraform apply":
         terraform_apply()
@@ -19,7 +19,12 @@ def main():
     elif user == "4" or user == "Configre kubectl":
         kube()
         main()
-    
+
+    elif user == "5" or user == "ArgoCD":
+        kube()
+        ArgoCD()
+        main()
+
     elif user == "9" or user == "exit":
         exit
 
@@ -62,5 +67,10 @@ def kube():
     print("\n Linking to k8s :) \n ")  
     subprocess.run(["aws", "eks" , "--region", "us-east-1" , "update-kubeconfig" , "--name" , "kareem-cluster"])
     print("\n Done ;) \n ")
+
+def ArgoCD():
+    print("\n Run cd pipe line firist to install ArgoCD \n ")  
+    subprocess.run(["kubectl", "port-forward" , "svc/argocd-server", "-n" , "argocd" , "8090:443" ])
+    print("\n open: http:localhost:8090 \n ")
 
 main()
