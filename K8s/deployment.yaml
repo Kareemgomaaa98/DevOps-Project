@@ -1,21 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-website
+  name: my-flask-app-deployment
   labels:
-    app: my-website
+    app: my-flask-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-website
+      app: my-flask-app
   template:
     metadata:
       labels:
-        app: my-website
+        app: my-flask-app
     spec:
       containers:
-      - name: my-website
-        image: localhost:3030/python-web-app-repo/my-website
+      - name: my-flask-app-container
+        image: 192.168.1.4:6000/python-web-app-repo/my-website-image:latest  # Full image URL including Nexus repository
         ports:
-        - containerPort: 80
+        - containerPort: 3030
+      imagePullSecrets:
+      - name: nexus-credentials-secret  # Reference the Secret containing your Nexus credentials9
+
+      # sudo docker pull 192.168.1.4:6000/python-web-app-repo/my-website-image
