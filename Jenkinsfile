@@ -46,7 +46,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "nex-login", usernameVariable: 'NEX_USERNAME', passwordVariable: 'NEX_PASSWORD')]) {
                     sh """
                     docker login --username ${NEX_USERNAME} --password ${NEX_PASSWORD} ${NEX_REPO}
-                    docker build -t ${NEX_REPO}/my-website .
+                    docker build -t ${NEX_REPO}/my-website-image .
                     """
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 echo "#### Pushing the image for stage number ${BUILD_NUMBER} ####"
                 sh """
-                docker push ${NEX_REPO}/my-website
+                docker push ${NEX_REPO}/my-website-image
                 echo ${BUILD_NUMBER}
                 """
             }
