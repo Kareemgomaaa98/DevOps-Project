@@ -1,0 +1,4 @@
+    pgsql_password: "kareem123"
+    sonar_password: "kareemsonar"
+    postgres_version: "14"
+    sonarqube_version: 8.9.2.46101

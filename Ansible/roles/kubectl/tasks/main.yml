@@ -1,9 +1,4 @@
 ---
-- name: Configure Kubernetes repository and install kubectl
-  hosts: [jen_ec2_ip]
-  become: yes
-
-  tasks:
     - name: Update the apt package index
       apt:
         update_cache: yes

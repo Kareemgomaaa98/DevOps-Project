@@ -1,0 +1,3 @@
+---
+    home_dir: /home/ubuntu
+    service_file: /etc/systemd/system/nexus.service

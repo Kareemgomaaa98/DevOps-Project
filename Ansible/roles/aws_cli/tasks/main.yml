@@ -1,0 +1,34 @@
+---
+    - name: Create aws_cli folder
+      file:
+        path: /tmp/aws_cli
+        state: directory
+
+    - name: Install unzip utility
+      apt:
+        name: unzip
+        state: present
+      when: ansible_distribution == 'Ubuntu'  # Adjust for your target distribution
+
+    - name: Download AWS CLI v2
+      get_url:
+        url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+        dest: "/tmp/aws_cli/awscliv2.zip"
+
+    - name: Unzip AWS CLI v2
+      unarchive:
+        src: "/tmp/aws_cli/awscliv2.zip"
+        dest: "/tmp/aws_cli"
+        remote_src: yes
+
+    - name: Install AWS CLI v2
+      command: ./aws/install
+      args:
+        chdir: "/tmp/aws_cli"
+
+    - name: Display AWS CLI Version
+      command: aws --version
+      register: aws_version_output
+
+    - debug:
+        var: aws_version_output.stdout_lines[0]

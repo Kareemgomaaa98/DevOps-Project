@@ -1,0 +1,10 @@
+---
+- name: Install PostgreSQL, SonarQube, sonarscanner
+  hosts: [son_ec2_ip]
+  become: true
+
+  tasks:
+     - name: Run sonar qube Role
+       include_role:
+        name: sonar_qube
+

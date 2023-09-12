@@ -1,0 +1,68 @@
+
+PLAY [Run Playbooks Sequentially] **********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [54.173.100.111]
+
+TASK [Run AWS CLI Role] ********************************************************
+
+TASK [aws_cli : Create aws_cli folder] *****************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : Install unzip utility] *****************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : Download AWS CLI v2] *******************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : Unzip AWS CLI v2] **********************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : Install AWS CLI v2] ********************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : Display AWS CLI Version] ***************************************
+changed: [54.173.100.111]
+
+TASK [aws_cli : debug] *********************************************************
+ok: [54.173.100.111] => {
+    "aws_version_output.stdout_lines[0]": "aws-cli/2.13.17 Python/3.11.5 Linux/5.19.0-1025-aws exe/x86_64.ubuntu.22 prompt/off"
+}
+
+TASK [Run Docker Role] *********************************************************
+
+TASK [docker : Update apt package index and install required packages] *********
+ok: [54.173.100.111]
+
+TASK [docker : Add Docker's official GPG key] **********************************
+fatal: [54.173.100.111]: FAILED! => {"changed": true, "cmd": ["curl", "-fsSL", "https://download.docker.com/linux/ubuntu/gpg", "|", "sudo", "gpg", "--dearmor", "-o", "/etc/apt/keyrings/docker.gpg"], "delta": "0:00:00.072729", "end": "2023-09-12 15:09:25.653021", "msg": "non-zero return code", "rc": 2, "start": "2023-09-12 15:09:25.580292", "stderr": "curl: option --dearmor: is unknown\ncurl: try 'curl --help' or 'curl --manual' for more information", "stderr_lines": ["curl: option --dearmor: is unknown", "curl: try 'curl --help' or 'curl --manual' for more information"], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP *********************************************************************
+54.173.100.111             : ok=9    changed=6    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [Run Playbooks Sequentially] **********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [54.173.100.111]
+
+TASK [Run AWS CLI Role] ********************************************************
+
+TASK [aws_cli : Create aws_cli folder] *****************************************
+ok: [54.173.100.111]
+
+TASK [aws_cli : Install unzip utility] *****************************************
+ok: [54.173.100.111]
+
+TASK [aws_cli : Download AWS CLI v2] *******************************************
+ok: [54.173.100.111]
+
+TASK [aws_cli : Unzip AWS CLI v2] **********************************************
+ok: [54.173.100.111]
+
+TASK [aws_cli : Install AWS CLI v2] ********************************************
+fatal: [54.173.100.111]: FAILED! => {"changed": true, "cmd": ["./aws/install"], "delta": "0:00:00.691575", "end": "2023-09-12 15:11:21.025609", "msg": "non-zero return code", "rc": 1, "start": "2023-09-12 15:11:20.334034", "stderr": "Found preexisting AWS CLI installation: /usr/local/aws-cli/v2/current. Please rerun install script with --update flag.", "stderr_lines": ["Found preexisting AWS CLI installation: /usr/local/aws-cli/v2/current. Please rerun install script with --update flag."], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP *********************************************************************
+54.173.100.111             : ok=5    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

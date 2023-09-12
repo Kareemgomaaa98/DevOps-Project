@@ -1,0 +1,62 @@
+
+PLAY [Install Nexus on EC2 instance] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [18.207.196.210]
+
+TASK [Run Nexus Role] **********************************************************
+
+TASK [nexus : apt update & install wget] ***************************************
+ok: [18.207.196.210]
+
+TASK [nexus : install java] ****************************************************
+changed: [18.207.196.210]
+
+TASK [nexus : Download the latest nexus] ***************************************
+changed: [18.207.196.210]
+
+TASK [nexus : Untar the downloaded file] ***************************************
+
+PLAY [Install Nexus on EC2 instance] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [18.207.196.210]
+
+TASK [Run Nexus Role] **********************************************************
+
+TASK [nexus : apt update & install wget] ***************************************
+ok: [18.207.196.210]
+
+TASK [nexus : install java] ****************************************************
+ok: [18.207.196.210]
+
+TASK [nexus : Download the latest nexus] ***************************************
+ok: [18.207.196.210]
+
+TASK [nexus : Untar the downloaded file] ***************************************
+changed: [18.207.196.210]
+
+TASK [nexus : Copy directory with new name] ************************************
+changed: [18.207.196.210]
+
+TASK [nexus : add user nexus] **************************************************
+changed: [18.207.196.210]
+
+TASK [nexus : change owner of nexus] *******************************************
+changed: [18.207.196.210]
+
+TASK [nexus : change in nexus file] ********************************************
+changed: [18.207.196.210]
+
+TASK [nexus : copy service file] ***********************************************
+changed: [18.207.196.210]
+
+TASK [nexus : restart the service] *********************************************
+changed: [18.207.196.210]
+
+TASK [nexus : install nginx and lets encrypt bot for SSL/TLS] ******************
+changed: [18.207.196.210]
+
+PLAY RECAP *********************************************************************
+18.207.196.210             : ok=12   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

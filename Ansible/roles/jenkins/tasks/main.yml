@@ -1,10 +1,4 @@
 ---
-- name: Install Jenkins
-  hosts: [jen_ec2_ip]
-  become: true
-  become_user: root
-
-  tasks:
     - name: Install dependencies
       apt:
         name:

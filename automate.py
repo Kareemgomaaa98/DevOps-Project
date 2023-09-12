@@ -48,11 +48,9 @@ def ansible():
     print("\n Ansible starts now :) \n \n Ansible takes 2 or 3 minutes \n Please wait ... ")  
     subprocess.run(["chmod", "400", "TFkey"], cwd=ansible_files) #Set the key pair file permission to read only
     commands = [
-        ["ansible-playbook", "-i", "inventory.txt", "jenkins.yml", "-u", "ubuntu", "--key-file", "TFkey"],
-        ["ansible-playbook", "-i", "inventory.txt", "docker.yml", "-u", "ubuntu", "--key-file", "TFkey"],
-        ["ansible-playbook", "-i", "inventory.txt", "kubectl.yml", "-u", "ubuntu", "--key-file", "TFkey"],
-        ["ansible-playbook", "-i", "inventory.txt", "sonar.yml", "-u", "ubuntu", "--key-file", "TFkey"],
-        ["ansible-playbook", "-i", "inventory.txt", "nexus.yml", "-u", "ubuntu", "--key-file", "TFkey"]
+        ["ansible-playbook", "-i", "inventory.txt", "jenkins_instance.yml", "-u", "ubuntu", "--key-file", "TFkey", ">>", "playbooks_output_logs/jenkins_instance_.log"],
+        ["ansible-playbook", "-i", "inventory.txt", "sonarqube_instance.yml", "-u", "ubuntu", "--key-file", "TFkey", ">>", "playbooks_output_logs/sonarqube_playbook_output.log"],
+        ["ansible-playbook", "-i", "inventory.txt", "nexus_instance.yml", "-u", "ubuntu", "--key-file", "TFkey", ">>", "playbooks_output_logs/nexus_output.log"]
     ]
     # Create a list of terminal commands to run each command in a new terminal window
     terminal_commands = []

@@ -1,9 +1,4 @@
 ---
-- name: Install Docker
-  hosts: [jen_ec2_ip]
-  become: yes  # You need to run these tasks as sudo, so become is set to yes
-
-  tasks:
     - name: Update apt package index and install required packages
       apt:
         name:

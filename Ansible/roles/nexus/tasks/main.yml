@@ -1,12 +1,4 @@
-- name: Install Nexus on EC2 instance
-  hosts: [nex_ec2_ip]
-  become: true
-
-  vars:
-    home_dir: /home/ubuntu
-    service_file: /etc/systemd/system/nexus.service
-
-  tasks:
+---
     - name: apt update & install wget
       apt:
         name: wget

@@ -1,0 +1,9 @@
+---
+- name: Install Nexus on EC2 instance
+  hosts: [nex_ec2_ip]
+  become: true
+
+  tasks:
+     - name: Run Nexus Role
+       include_role:
+         name: nexus

@@ -1,14 +1,3 @@
-- name: Install PostgreSQL, SonarQube, sonarscanner
-  hosts: [son_ec2_ip]
-  become: true
-
-  vars:
-    pgsql_password: "kareem123"
-    sonar_password: "kareemsonar"
-    postgres_version: "14"
-    sonarqube_version: 8.9.2.46101
-
-  tasks:
     - name: update cache and upgrade
       apt:
         update_cache: yes

@@ -1,0 +1,21 @@
+---
+- name: Run Playbooks Sequentially
+  hosts: [jen_ec2_ip]
+  become: yes
+
+  tasks:
+    - name: Run AWS CLI Role
+      include_role:
+        name: aws_cli
+
+    - name: Run Docker Role
+      include_role:
+        name: docker
+
+    - name: Run Jenkins Role
+      include_role:
+        name: jenkins
+
+    - name: Run Kubectl Role
+      include_role:
+        name: kubectl
