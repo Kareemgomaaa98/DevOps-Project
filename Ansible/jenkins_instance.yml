@@ -1,21 +1,25 @@
 ---
-- name: Run Playbooks Sequentially
+- name: Install Jenkins on EC2 instance
   hosts: [jen_ec2_ip]
   become: yes
 
   tasks:
-    - name: Run AWS CLI Role
-      include_role:
-        name: aws_cli
+    # - name: Configure AWS CLI
+    #   include_role:
+    #     name: aws_cli
 
-    - name: Run Docker Role
-      include_role:
-        name: docker
+    # - name: Set Up Docker Environment
+    #   include_role:
+    #     name: docker
 
-    - name: Run Jenkins Role
-      include_role:
-        name: jenkins
+    # - name: Deploy Jenkins Service
+    #   include_role:
+    #     name: jenkins
 
-    - name: Run Kubectl Role
-      include_role:
-        name: kubectl
+    # - name: Move Jenkins Data Directory
+    #   include_role:
+    #     name: jenkins-home-file
+
+    # - name: Manage Kubernetes with Kubectl
+    #   include_role:
+    #     name: kubectl

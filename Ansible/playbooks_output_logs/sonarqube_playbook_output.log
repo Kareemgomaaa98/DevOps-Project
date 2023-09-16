@@ -1,23 +1,6 @@
 
 PLAY [Install PostgreSQL, SonarQube, sonarscanner] *****************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [3.83.149.139]
-
-TASK [Run sonar qube Role] *****************************************************
-
-TASK [sonar_qube : update cache and upgrade] ***********************************
-
-PLAY [Install PostgreSQL, SonarQube, sonarscanner] *****************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [3.83.149.139]
-
-TASK [Run sonar qube Role] *****************************************************
-
-TASK [sonar_qube : update cache and upgrade] ***********************************
-fatal: [3.83.149.139]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get dist-upgrade --auto-remove' failed: E: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1847 (apt-get)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
+skipping: no hosts matched
 
 PLAY RECAP *********************************************************************
-3.83.149.139               : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
 
