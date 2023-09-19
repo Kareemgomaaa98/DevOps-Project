@@ -18,27 +18,27 @@ pipeline {
         BUILD_URL = 'my_URL'
         SLACK_CHANNEL = '#cicd-project'
         // Nexus
-        NEX_URL = 'http://localhost:8081/'
-        NEX_REPO = 'localhost:6000/python-web-app-repo'
+        NEX_URL = 'http://3.88.131.219:8081/'
+        NEX_REPO = '3.88.131.219:6000/python-web-app-repo'
     }
 
     stages {
-        stage('CODE ANALYSIS with SONARQUBE') {
-            steps {
-                echo "#### SonarQube Starts Analyzing now for stage number ${BUILD_NUMBER} ### "
-                script {
-                    def scannerHome = tool "${SONAR_SCANNER_TOOL}"
-                    def jdkHome = tool 'Java-11'
-                    withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
-                        sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
-                            -Dsonar.projectKey=${PROJECT_KEY} \
-                            -Dsonar.sources=${SOURCE_DIR} \
-                            -Dsonar.host.url=${SONAR_HOST} \
-                            -Dsonar.login=${SONAR_TOKEN}"
-                    }
-                }
-            }
-        }
+        // stage('CODE ANALYSIS with SONARQUBE') {
+        //     steps {
+        //         echo "#### SonarQube Starts Analyzing now for stage number ${BUILD_NUMBER} ### "
+        //         script {
+        //             def scannerHome = tool "${SONAR_SCANNER_TOOL}"
+        //             def jdkHome = tool 'Java-11'
+        //             withSonarQubeEnv("${SONAR_SCANNER_TOOL}") {
+        //                 sh "/opt/sonarscanner/sonar-scanner-*-linux/bin/sonar-scanner \
+        //                     -Dsonar.projectKey=${PROJECT_KEY} \
+        //                     -Dsonar.sources=${SOURCE_DIR} \
+        //                     -Dsonar.host.url=${SONAR_HOST} \
+        //                     -Dsonar.login=${SONAR_TOKEN}"
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('CONTAINER BUILD') {
             steps {
@@ -63,15 +63,15 @@ pipeline {
         }
     }
 
-    post {
-        failure {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED 😢 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
-        }
-        success {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#00FF00", message: "SUCCEEDED 🥳 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
-        }
-        aborted {
-            slackSend(channel: "${SLACK_CHANNEL}", color: "#808080", message: "ABORTED 🤒 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
-        }
-    }
-}
+//     post {
+//         failure {
+//             slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED 😢 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+//         }
+//         success {
+//             slackSend(channel: "${SLACK_CHANNEL}", color: "#00FF00", message: "SUCCEEDED 🥳 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+//         }
+//         aborted {
+//             slackSend(channel: "${SLACK_CHANNEL}", color: "#808080", message: "ABORTED 🤒 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
+//         }
+//     }
+// }
