@@ -6,17 +6,17 @@ pipeline {
     }
 
     environment {
-        // Sonarqube
-        SONAR_SCANNER_TOOL = 'SonarQube' // Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
-        SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
-        PROJECT_KEY = 'DevOps-Project'
-        SOURCE_DIR = '.'
-        SONAR_HOST = 'http://localhost:9000'
-        // Slack
-        JOB_NAME = 'DevOps-Project'
-        BUILD_ID = 'my_build_id'
-        BUILD_URL = 'my_URL'
-        SLACK_CHANNEL = '#cicd-project'
+        // // Sonarqube
+        // SONAR_SCANNER_TOOL = 'SonarQube' // Manage Jenkins > Global Tool Configuration > Scroll down to the SonarScanner configuration section and click on Add SonarScanner.
+        // SONAR_TOKEN = credentials('SonarQube-Token') // Add SonarQube token credential ID here
+        // PROJECT_KEY = 'DevOps-Project'
+        // SOURCE_DIR = '.'
+        // SONAR_HOST = 'http://localhost:9000'
+        // // Slack
+        // JOB_NAME = 'DevOps-Project'
+        // BUILD_ID = 'my_build_id'
+        // BUILD_URL = 'my_URL'
+        // SLACK_CHANNEL = '#cicd-project'
         // Nexus
         NEX_URL = 'http://3.88.131.219:8081/'
         NEX_REPO = '3.88.131.219:6000/python-web-app-repo'
