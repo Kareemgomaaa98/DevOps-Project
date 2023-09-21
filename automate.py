@@ -4,7 +4,7 @@ def main():
     print("\n$$ Welcome to my CI/CD Project $$\n--- Please choose what to do ?")
     user = input("1- terraform apply\n2- terraform destroy\n3- ansible\n4- Link me to my cluster\n5- ArgoCD\n9- exit\nEnter choice:")
 
-    if user == "1" or user == "terraform apply and start ansible":
+    if user == "1" or user == "terraform apply":
         terraform_apply()
         ansible()
         main()

@@ -6,5 +6,5 @@
   tasks:
      - name: Run sonar qube Role
        include_role:
-        name: sonar_qube
+        name: sonarqube
 

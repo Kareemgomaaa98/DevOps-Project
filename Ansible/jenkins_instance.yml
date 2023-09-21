@@ -4,22 +4,18 @@
   become: yes
 
   tasks:
-    # - name: Configure AWS CLI
-    #   include_role:
-    #     name: aws_cli
+    - name: Configure AWS CLI
+      include_role:
+        name: aws_cli
 
-    # - name: Set Up Docker Environment
-    #   include_role:
-    #     name: docker
+    - name: Set Up Docker Environment
+      include_role:
+        name: docker
 
-    # - name: Deploy Jenkins Service
-    #   include_role:
-    #     name: jenkins
+    - name: Deploy Jenkins Service
+      include_role:
+        name: jenkins
 
-    # - name: Move Jenkins Data Directory
-    #   include_role:
-    #     name: jenkins-home-file
-
-    # - name: Manage Kubernetes with Kubectl
-    #   include_role:
-    #     name: kubectl
+    - name: Manage Kubernetes with Kubectl
+      include_role:
+        name: kubectl

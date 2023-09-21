@@ -1,4 +1,9 @@
 ---
+    - name: Check if AWS CLI is installed     # check if the AWS CLI executable (/usr/local/aws-cli/aws) already exists.
+      stat:
+        path: /usr/local/aws-cli/aws
+      register: aws_cli_check_result    # It registers the result in the variable aws_cli_check_result.
+    
     - name: Create aws_cli folder
       file:
         path: /tmp/aws_cli
@@ -14,17 +19,24 @@
       get_url:
         url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
         dest: "/tmp/aws_cli/awscliv2.zip"
+      when: aws_cli_check_result.stat.exists == false
 
     - name: Unzip AWS CLI v2
       unarchive:
         src: "/tmp/aws_cli/awscliv2.zip"
         dest: "/tmp/aws_cli"
         remote_src: yes
+      when: aws_cli_check_result.stat.exists == false
 
     - name: Install AWS CLI v2
       command: ./aws/install
       args:
         chdir: "/tmp/aws_cli"
+      when: aws_cli_check_result.stat.exists == false
+
+    # The subsequent tasks for creating the folder, installing unzip, downloading AWS CLI, unzipping, and installing AWS CLI v2
+    # only run when aws_cli_check_result.stat.exists is false, indicating that AWS CLI is not installed.
+    # This makes the role idempotent, as it will only perform the installation steps when necessary.
 
     - name: Display AWS CLI Version
       command: aws --version
