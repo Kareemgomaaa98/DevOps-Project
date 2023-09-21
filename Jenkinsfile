@@ -18,8 +18,8 @@ pipeline {
         // BUILD_URL = 'my_URL'
         // SLACK_CHANNEL = '#cicd-project'
         // Nexus
-        NEX_URL = 'http://54.82.176.52:8081/'
-        NEX_REPO = '54.82.176.52:6000/python-web-app-repo'
+        NEX_URL = 'http://44.206.251.143:8081/'
+        NEX_REPO = '44.206.251.143:6000/python-web-app-repo'
     }
 
     stages {
