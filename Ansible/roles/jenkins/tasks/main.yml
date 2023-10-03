@@ -31,7 +31,7 @@
         name: jenkins
         state: present
 
-    - name: Set permissions for /var/run/docker.sock   sudo chmod 0666 /var/run/docker.sock
+    - name: Set permissions for /var/run/docker.sock   #sudo chmod 0666 /var/run/docker.sock
       file:
         path: /var/run/docker.sock
         mode: "0666"

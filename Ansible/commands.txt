@@ -1,9 +1,0 @@
-ubuntu@ip-10-0-0-133:/var/lib/jenkins$ ls -ld .
-drwxr-xr-x 11 jenkins jenkins 4096 Sep 15 08:43 .	
-	
-	
-	
-	
-	ssh -i /home/kareem/Projects/Devops_Project/main/Ansible/TFkey ubuntu@3.88.53.52
-	sudo chown -R ubuntu:ubuntu /var/lib/jenkins/
-	sudo scp -i /home/kareem/Projects/Devops_Project/main/Ansible/TFkey -r /var/lib/jenkins/ ubuntu@3.88.53.52:/var/lib/jenkins/

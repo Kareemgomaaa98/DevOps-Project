@@ -1,4 +1,15 @@
 ---
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      register: update_result
+
+    - name: Upgrade packages
+      apt:
+        upgrade: dist
+        autoremove: yes
+      when: update_result.changed
+      
     - name: apt update & install wget
       apt:
         name: wget
@@ -47,7 +58,3 @@
         state: started
         name: nexus
         enabled: true
-
-    - name: install nginx and lets encrypt bot for SSL/TLS
-      apt:
-        name: [nginx, certbot, python3-certbot-nginx]

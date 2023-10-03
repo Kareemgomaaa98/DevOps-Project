@@ -1,0 +1,29 @@
+# Define an upstream block to specify the backend server where the Python web app is hosted.
+upstream pythonwebapp {
+    server {{ ansible_host }}:6000;  # The Python web app server address and port.
+}
+
+# Define the main server block.
+server {
+    listen      80;  # Listen on port 80 for incoming HTTP requests.nginx will work on this port
+    server_name {{ nginx_dns_server_name }};  # Set the server name.
+
+    access_log  /var/log/nginx/pythonwebapp.access.log;  # Log access requests.
+    error_log   /var/log/nginx/pythonwebapp.error.log;  # Log error messages.
+
+    proxy_buffers 16 64k;  # Configure proxy buffers for better performance.
+    proxy_buffer_size 128k;
+
+    # Define a location block for handling incoming requests.
+    location / {
+        proxy_pass  http://pythonwebapp;  # Proxy requests to the upstream Python web app.
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;  # Handle certain proxy errors gracefully.
+        proxy_redirect off;  # Disable automatic redirection.
+
+        # Set headers to be forwarded to the Python web app.
+        proxy_set_header    Host            $host;
+        proxy_set_header    X-Real-IP       $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header    X-Forwarded-Proto https;
+    }
+}

@@ -7,3 +7,7 @@
      - name: Run Nexus Role
        include_role:
          name: nexus
+         
+     - name: Run nginx Role
+       include_role:
+         name: nginx
