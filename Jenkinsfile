@@ -19,7 +19,7 @@ pipeline {
         // SLACK_CHANNEL = '#cicd-project'
         // Nexus
         NEX_URL = 'http://3.95.138.163:8081/'
-        NEX_REPO = '3.95.138.163:6000/python-web-app-repo'
+        NEX_REPO = 'kareempythweb.duckdns.org/python-web-app-repo'
     }
 
     stages {
