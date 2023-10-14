@@ -34,9 +34,9 @@ pipeline {
             }
         }
 
+
         stage('DEPLOY K8s RESOURCES - Web Application') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                 sh """
                 kubectl apply -f nexus-credentials-secret.yaml
                 kubectl apply -f deployment.yaml
@@ -45,8 +45,9 @@ pipeline {
                 """
             }
         }
+    }
 
-        stage('INSTALL Promethues and Grafana') {
+        stage('INSTALL Prometheus and Grafana') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh """
@@ -56,8 +57,8 @@ pipeline {
                 }
             }
         }
-    }
 
+    // Uncomment the following post section for Slack notifications
     // post {
     //     failure {
     //         slackSend(channel: "${SLACK_CHANNEL}", color: "#FF0000", message: "FAILED 😢 : job '${JOB_NAME} [${BUILD_ID}]' (${BUILD_URL})")
