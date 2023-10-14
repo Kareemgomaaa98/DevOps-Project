@@ -37,12 +37,13 @@ pipeline {
         stage('DEPLOY K8s RESOURCES - Web Application') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                sh """
-                kubectl apply -f nexus-credentials-secret.yaml
-                kubectl apply -f deployment.yaml
-                kubectl apply -f my-flask-app-service.yaml
-                kubectl get svc my-flask-app-service
-                """
+                    sh """
+                    kubectl apply -f nexus-credentials-secret.yaml
+                    kubectl apply -f deployment.yaml
+                    kubectl apply -f my-flask-app-service.yaml
+                    kubectl get svc my-flask-app-service
+                    """
+                }
             }
         }
 
