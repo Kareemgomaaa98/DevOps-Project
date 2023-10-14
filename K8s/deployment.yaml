@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
       - name: my-flask-app-container
-        image: 192.168.1.4:6000/python-web-app-repo/my-website-image:latest  # Full image URL including Nexus repository
+        image: kareempythweb.duckdns.org:6000/python-web-app-repo/my-website-image:latest  # Full image URL including Nexus repository
         ports:
         - containerPort: 3030
       imagePullSecrets:
       - name: nexus-credentials-secret  # Reference the Secret containing your Nexus credentials9
 
-      # sudo docker pull 192.168.1.4:6000/python-web-app-repo/my-website-image
+      # sudo docker pull DSN_SERVER-NAME:6000/python-web-app-repo/my-website-image
