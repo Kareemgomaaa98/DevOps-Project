@@ -16,7 +16,12 @@ spec:
     spec:
       containers:
       - name: my-flask-app-container
-        image: kareempythweb.duckdns.org:6000/python-web-app-repo/my-website-image:latest  # Full image URL including Nexus repository
+        image: kareempythweb.duckdns.org/python-web-app-repo/my-website-image:latest  # Full image URL including Nexus repository
+        resources:
+          requests:
+            memory: "1000Mi"  # Adjust these values as needed
+          limits:
+            memory: "2000Mi"
         ports:
         - containerPort: 3030
       imagePullSecrets:
