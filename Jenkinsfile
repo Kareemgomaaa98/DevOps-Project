@@ -34,17 +34,6 @@ pipeline {
             }
         }
 
-        stage('INSTALL Promethues and Grafana') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh """
-                    chmod +x grafana-prometheus_script.sh
-                    bash grafana-prometheus_script.sh
-                    """
-                }
-            }
-        }
-
         stage('DEPLOY K8s RESOURCES - Web Application') {
             steps {
                 sh """
@@ -56,7 +45,18 @@ pipeline {
             }
         }
     }
-    
+
+        stage('INSTALL Promethues and Grafana') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh """
+                    chmod +x grafana-prometheus_script.sh
+                    bash grafana-prometheus_script.sh
+                    """
+                }
+            }
+        }
+
     // Uncomment the following post section for Slack notifications
     // post {
     //     failure {
