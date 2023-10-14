@@ -34,7 +34,6 @@ pipeline {
             }
         }
 
-
         stage('DEPLOY K8s RESOURCES - Web Application') {
             steps {
                 sh """
@@ -45,7 +44,6 @@ pipeline {
                 """
             }
         }
-    }
 
         stage('INSTALL Prometheus and Grafana') {
             steps {
@@ -57,6 +55,7 @@ pipeline {
                 }
             }
         }
+    }
 
     // Uncomment the following post section for Slack notifications
     // post {
