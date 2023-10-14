@@ -28,11 +28,12 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh """
                     chmod +x argocd_script.sh
-                    bash argocd_install_script.sh
+                    bash argocd_script.sh
                     """
                 }
             }
         }
+
         stage('INSTALL Promethues and Grafana') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "aws-key", usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
