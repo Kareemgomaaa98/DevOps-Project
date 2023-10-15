@@ -7,10 +7,10 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Kareemgomaaa98/DevOps-Project.git
-    targetRevision: HEAD
+    targetRevision: cd
     path: K8s
   destination:
-    server: https://kubernetes.default.svc
+    server: https://kubernetes.default.svc   #End point of k8s API server
     namespace: myapp
   syncPolicy:                      # By default the bleow polices set off due to safety mechanism.
     syncOptions:
