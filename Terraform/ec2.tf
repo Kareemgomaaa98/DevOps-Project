@@ -5,6 +5,10 @@ resource "aws_instance" "Jenkins" {
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.TF_Key.key_name            # Adding key pair
 
+  root_block_device {
+    volume_size = 10  # Increase the volume size to 10 GiB (or your desired size)
+  }
+
   tags = {
     Name = "Jenkins"
   }
@@ -20,6 +24,10 @@ resource "aws_instance" "nexus" {
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.TF_Key.key_name            # Adding key pair
 
+  root_block_device {
+    volume_size = 10  # Increase the volume size to 10 GiB (or your desired size)
+  }
+
   tags = {
     Name = "Nexus"
   }
@@ -34,6 +42,10 @@ resource "aws_instance" "Sonar" {
   subnet_id              = aws_subnet.pub_1.id
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   key_name               = aws_key_pair.TF_Key.key_name            # Adding key pair
+
+  root_block_device {
+    volume_size = 10  # Increase the volume size to 10 GiB (or your desired size)
+  }
 
   tags = {
     Name = "Sonar"

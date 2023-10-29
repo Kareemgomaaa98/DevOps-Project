@@ -16,6 +16,14 @@
       include_role:
         name: jenkins
 
+    # - name: Setting jenkins configurations
+    #   include_role:
+    #     name: jenkins-files
+
+    - name: Install Helm
+      include_role:
+        name: helm
+
     - name: Manage Kubernetes with Kubectl
       include_role:
         name: kubectl

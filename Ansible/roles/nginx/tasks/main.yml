@@ -7,23 +7,18 @@
 - name: Create Nginx configuration file
   template:
     src: nginx-site.conf.j2
-    dest: /etc/nginx/sites-available/pythonwebapp.duckdns.org
+    dest: /etc/nginx/sites-available/{{ nginx_dns_server_name }}
   notify:
     - Reload Nginx
 
 - name: Create symbolic link to enable Nginx configuration
   become: yes
   file:
-    src: /etc/nginx/sites-available/pythonwebapp.duckdns.org
-    dest: /etc/nginx/sites-enabled/pythonwebapp.duckdns.org
+    src: /etc/nginx/sites-available/{{ nginx_dns_server_name }}
+    dest: /etc/nginx/sites-enabled/{{ nginx_dns_server_name }}
     state: link
   notify:
     - Reload Nginx
-
-- name: restart nginx service
-  systemd:
-    name: nginx
-    state: restarted
 
 - name: Stop nginx service
   systemd:
@@ -39,10 +34,5 @@
     - python3-certbot-nginx
 
 - name: Obtain SSL certificate using Certbot
-  command: sudo certbot certonly --standalone -d pythonwebapp.duckdns.org --register-unsafely-without-email --agree-tos --force-renewal
+  command: sudo certbot certonly --standalone -d {{ nginx_dns_server_name }} --register-unsafely-without-email --agree-tos --force-renewal
   ignore_errors: yes
-
-- name: restart nginx service
-  systemd:
-    name: nginx
-    state: restarted

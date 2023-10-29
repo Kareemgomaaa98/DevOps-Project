@@ -67,8 +67,8 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-    from_port        = 6060            #For webapp with port 6060 https
-    to_port          = 6060
+    from_port        = 8070            #For webapp with https
+    to_port          = 8070
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }

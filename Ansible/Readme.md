@@ -52,3 +52,8 @@ http:<clusterip>:8080
 Log in with username: "admin" and to get password : 
 kubectl get secret argocd-initial-admin-secret -n argocd -o yaml
 echo <password> | base64 --decode  * Just copy the steing before the percent mark
+__________________________________________________________________
+helm : 
+
+Installation Documentation :
+https://devopscube.com/install-configure-helm-kubernetes/

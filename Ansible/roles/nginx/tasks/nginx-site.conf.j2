@@ -1,26 +1,31 @@
 # Define an upstream block to specify the backend server where the Python web app is hosted.
-upstream pythonwebapp {
-    server {{ ansible_host }}:6000;  # The Python web app server address and port.
+upstream {{ nginx_server_name }} {
+    server {{ ansible_host }}:6000;  # The Python web app server address and port.Open this port as http in nexus !
 }
 
-# Define the main server block.
+# Define the main server block for HTTP (port 80).
 server {
-    listen      80;  # Listen on port 80 for incoming HTTP requests.nginx will work on this port
-    server_name {{ nginx_dns_server_name }};  # Set the server name.
+    listen      80;
+    server_name {{ nginx_dns_server_name }};
+    # Your existing configuration for HTTP goes here...
+}
 
-    access_log  /var/log/nginx/pythonwebapp.access.log;  # Log access requests.
-    error_log   /var/log/nginx/pythonwebapp.error.log;  # Log error messages.
+# Define the server block for HTTPS (port 443).
+server {
+    listen 443 ssl;
+    server_name {{ nginx_dns_server_name }};
 
-    proxy_buffers 16 64k;  # Configure proxy buffers for better performance.
-    proxy_buffer_size 128k;
+    ssl_certificate /etc/letsencrypt/live/{{ nginx_dns_server_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ nginx_dns_server_name }}/privkey.pem;
 
-    # Define a location block for handling incoming requests.
+    # Increase the maximum request size
+    client_max_body_size 700M;  # Adjust the size as needed
+
     location / {
-        proxy_pass  http://pythonwebapp;  # Proxy requests to the upstream Python web app.
-        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;  # Handle certain proxy errors gracefully.
-        proxy_redirect off;  # Disable automatic redirection.
+        proxy_pass  http://{{ nginx_server_name }};
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_redirect off;
 
-        # Set headers to be forwarded to the Python web app.
         proxy_set_header    Host            $host;
         proxy_set_header    X-Real-IP       $remote_addr;
         proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;

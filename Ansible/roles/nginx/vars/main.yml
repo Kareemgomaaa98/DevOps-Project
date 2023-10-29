@@ -1,2 +1,3 @@
 ---
-  nginx_dns_server_name: pythonwebapp.duckdns.org
+  nginx_dns_server_name: kareempythweb.duckdns.org
+  nginx_server_name: kareempythweb
